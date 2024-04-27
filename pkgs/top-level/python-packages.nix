@@ -632,6 +632,8 @@ self: super: with self; {
 
   anonip = callPackage ../development/python-modules/anonip { };
 
+  anonymizeip = callPackage ../development/python-modules/anonymizeip { };
+
   anova-wifi = callPackage ../development/python-modules/anova-wifi { };
 
   ansi2html = callPackage ../development/python-modules/ansi2html { };
