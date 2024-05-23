@@ -1,36 +1,34 @@
-{ config, lib, pkgs, ... }:
-with lib;
-let
+{ config
+, lib
+, pkgs
+, ...
+}: let
   cfg = config.services.aide;
   configFile = pkgs.writeText "aide.conf" ''
     # The location of the database
-    database=${cfg.database_url}
+    database_in=${cfg.database_url}
 
     # The location of the log file
-    log_file=/var/log/aide/aide.log
+    report_url=file:/var/log/aide/aide.log
 
     # Directories to be checked
-    ${lib.concatStringsSep "\n" (map (dir: ''
-    ${dir} NORMAL
-    '')
+    ${lib.concatStringsSep "\n" (map (dir: "${dir} R")
     cfg.directories)}
 
     # Files to be checked
-    ${lib.concatStringsSep "\n" (map (file: ''
-    ${file} NORMAL
-    '')
+    ${lib.concatStringsSep "\n" (map (file: "${file} R")
     cfg.files)}
   '';
-in
-{
+  inherit (lib) mkEnableOption mkOption types mkIf;
+in {
   options = {
     services.aide = {
-      enable = mkEnableOption (lib.mdDoc "AIDE file integrity checker");
+      enable = mkEnableOption "AIDE file integrity checker";
 
       interval = mkOption {
         type = types.str;
         default = "*-*-* 04:00:00";
-        description = lib.mdDoc ''
+        description = ''
           How often aide is invoked. See systemd.time(7) for more
           information about the format.
         '';
@@ -38,49 +36,38 @@ in
 
       database_url = mkOption {
         type = types.str;
-        description = mdDoc "Database URL.";
+        description = "Database URL.";
         default = "file:/var/lib/aide/aide.db";
         example = "file:/var/lib/aide/aide.db";
       };
 
       directories = mkOption {
         type = with types; listOf str;
-        description = lib.mdDoc ''
+        description = ''
           list of directories to be checked by aide
         '';
         default = [
           "/etc"
           "/bin"
-          "/sbin"
           "/usr"
           "/var"
           "/home"
-          "/opt"
         ];
       };
 
       files = mkOption {
         type = with types; listOf str;
-        description = lib.mdDoc ''
+        description = ''
           list of files to be checked by aide
         '';
         default = [
           "/etc/passwd"
           "/etc/shadow"
           "/etc/group"
-          "/etc/gshadow"
           "/etc/hosts"
           "/etc/hostname"
           "/etc/resolv.conf"
           "/etc/fstab"
-          "/etc/inittab"
-          "/etc/init.d"
-          "/etc/rc.local"
-          "/etc/crontab"
-          "/etc/cron.d"
-          "/etc/cron.daily"
-          "/etc/cron.weekly"
-          "/etc/cron.monthly"
           "/etc/ssh/sshd_config"
           "/etc/ssh/ssh_config"
           "/etc/ssh/ssh_host_rsa_key"
