@@ -31,21 +31,96 @@ in
               type = (
                 types.submodule {
                   options = {
-                    HOME_NET = mkOption { default = "[192.168.0.0/16,10.0.0.0/8,172.16.0.0/12]"; };
-                    EXTERNAL_NET = mkOption { default = "!$HOME_NET"; };
-                    HTTP_SERVERS = mkOption { default = "$HOME_NET"; };
-                    SMTP_SERVERS = mkOption { default = "$HOME_NET"; };
-                    SQL_SERVERS = mkOption { default = "$HOME_NET"; };
-                    DNS_SERVERS = mkOption { default = "$HOME_NET"; };
-                    TELNET_SERVERS = mkOption { default = "$HOME_NET"; };
-                    AIM_SERVERS = mkOption { default = "$EXTERNAL_NET"; };
-                    DC_SERVERS = mkOption { default = "$HOME_NET"; };
-                    DNP3_SERVER = mkOption { default = "$HOME_NET"; };
-                    DNP3_CLIENT = mkOption { default = "$HOME_NET"; };
-                    MODBUS_CLIENT = mkOption { default = "$HOME_NET"; };
-                    MODBUS_SERVER = mkOption { default = "$HOME_NET"; };
-                    ENIP_CLIENT = mkOption { default = "$HOME_NET"; };
-                    ENIP_SERVER = mkOption { default = "$HOME_NET"; };
+                    HOME_NET = mkOption {
+                      default = "[192.168.0.0/16,10.0.0.0/8,172.16.0.0/12]";
+                      description = ''
+                        HOME_NET variable
+                      '';
+                    };
+                    EXTERNAL_NET = mkOption {
+                      default = "!$HOME_NET";
+                      description = ''
+                        EXTERNAL_NET variable
+                      '';
+                    };
+                    HTTP_SERVERS = mkOption {
+                      default = "$HOME_NET";
+                      description = ''
+                        HTTP_SERVERS variable
+                      '';
+                    };
+                    SMTP_SERVERS = mkOption {
+                      default = "$HOME_NET";
+                      description = ''
+                        SMTP_SERVERS variable
+                      '';
+                    };
+                    SQL_SERVERS = mkOption {
+                      default = "$HOME_NET";
+                      description = ''
+                        SQL_SERVERS variable
+                      '';
+                    };
+                    DNS_SERVERS = mkOption {
+                      default = "$HOME_NET";
+                      description = ''
+                        DNS_SERVERS variable
+                      '';
+                    };
+                    TELNET_SERVERS = mkOption {
+                      default = "$HOME_NET";
+                      description = ''
+                        TELNET_SERVERS variable
+                      '';
+                    };
+                    AIM_SERVERS = mkOption {
+                      default = "$EXTERNAL_NET";
+                      description = ''
+                        AIM_SERVERS variable
+                      '';
+                    };
+                    DC_SERVERS = mkOption {
+                      default = "$HOME_NET";
+                      description = ''
+                        DC_SERVERS variable
+                      '';
+                    };
+                    DNP3_SERVER = mkOption {
+                      default = "$HOME_NET";
+                      description = ''
+                        DNP3_SERVER variable
+                      '';
+                    };
+                    DNP3_CLIENT = mkOption {
+                      default = "$HOME_NET";
+                      description = ''
+                        DNP3_CLIENT variable
+                      '';
+                    };
+                    MODBUS_CLIENT = mkOption {
+                      default = "$HOME_NET";
+                      description = ''
+                        MODBUS_CLIENT variable
+                      '';
+                    };
+                    MODBUS_SERVER = mkOption {
+                      default = "$HOME_NET";
+                      description = ''
+                        MODBUS_SERVER variable
+                      '';
+                    };
+                    ENIP_CLIENT = mkOption {
+                      default = "$HOME_NET";
+                      description = ''
+                        ENIP_CLIENT variable
+                      '';
+                    };
+                    ENIP_SERVER = mkOption {
+                      default = "$HOME_NET";
+                      description = ''
+                        ENIP_SERVER variable
+                      '';
+                    };
                   };
                 }
               );
@@ -97,6 +172,9 @@ in
         }
       );
       default = { }; # add default values to config
+      description = ''
+        Variables
+      '';
     };
 
     stats = mkOption {
@@ -142,6 +220,9 @@ in
           };
         });
       default = null; # do not add to config unless specified
+      description = ''
+        Suricata statistics configuration
+      '';
     };
 
     plugins = mkOption {
@@ -350,6 +431,9 @@ in
               interface = mkOption {
                 type = types.str;
                 default = null;
+                description = ''
+                  af-packet capture interface
+                '';
               };
             };
           })
@@ -370,6 +454,9 @@ in
               interface = mkOption {
                 type = types.str;
                 default = null;
+                description = ''
+                  af-xdp capture interface
+                '';
               };
             };
           })
@@ -389,6 +476,9 @@ in
             eal-params.proc-type = mkOption {
               type = with types; nullOr str;
               default = null;
+              description = ''
+                dpdk eal-params.proc-type
+              '';
             };
             interfaces = mkOption {
               type =
@@ -400,11 +490,17 @@ in
                       interface = mkOption {
                         type = types.str;
                         default = null;
+                        description = ''
+                          dpdk capture interface
+                        '';
                       };
                     };
                   })
                 );
               default = null;
+              description = ''
+                dpdk capture interfaces
+              '';
             };
           };
         });
@@ -425,6 +521,9 @@ in
               interface = mkOption {
                 type = types.str;
                 default = null;
+                description = ''
+                  pcap capture interface
+                '';
               };
             };
           })
@@ -498,10 +597,16 @@ in
                   })
                 );
               default = null;
+              description = ''
+                app-layer protocols
+              '';
             };
           };
         });
       default = null; # do not add to config unless specified
+      description = ''
+        app-layer configuration
+      '';
     };
 
     "run-as" = {
@@ -540,10 +645,16 @@ in
             enabled = mkOption {
               type = types.either types.bool (types.enum [ "auto" ]);
               default = "auto";
+              description = ''
+                Enable unix-command
+              '';
             };
             filename = mkOption {
               type = types.path;
               default = "/run/suricata/suricata-command.socket";
+              description = ''
+                Filename for unix-command
+              '';
             };
           };
         });
@@ -603,12 +714,14 @@ in
     "reference-config-file" = mkOption {
       type = types.str;
       default = "${cfg.package}/etc/suricata/reference.config";
+      defaultText = "\${config.services.suricata.package}/etc/suricata/reference.config";
       description = "Suricata reference configuration file";
     };
 
     "threshold-file" = mkOption {
       type = types.str;
       default = "${cfg.package}/etc/suricata/threshold.config";
+      defaultText = "\${config.services.suricata.package}/etc/suricata/threshold.config";
       description = "Suricata threshold configuration file";
     };
 
