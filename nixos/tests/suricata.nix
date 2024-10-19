@@ -8,7 +8,6 @@ import ./make-test-python.nix (
       ids = {
         imports = [
           ../modules/profiles/minimal.nix
-          ../modules/services/networking/suricata/default.nix
         ];
 
         networking.interfaces.eth1 = {
