@@ -1,0 +1,10 @@
+--- /dev/null
++++ b/pyproject.toml
+@@ -0,0 +1,7 @@
++[build-system]
++requires = ["setuptools"]
++build-backend = "setuptools.build_meta"
++
++[project]
++name = "aperisolve"
++version = "3.0.5"
