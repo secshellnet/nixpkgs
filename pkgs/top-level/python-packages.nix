@@ -18840,6 +18840,8 @@ self: super: with self; {
 
   shellingham = callPackage ../development/python-modules/shellingham { };
 
+  shelljob = callPackage ../development/python-modules/shelljob { };
+
   sherpa-onnx = callPackage ../development/python-modules/sherpa-onnx {
     sherpa-onnx = pkgs.sherpa-onnx.override {
       python3Packages = self;
