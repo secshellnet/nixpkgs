@@ -7801,6 +7801,8 @@ self: super: with self; {
 
   http-snapshot = callPackage ../development/python-modules/http-snapshot { };
 
+  http-tools = callPackage ../development/python-modules/http-tools { };
+
   httpagentparser = callPackage ../development/python-modules/httpagentparser { };
 
   httpauth = callPackage ../development/python-modules/httpauth { };
