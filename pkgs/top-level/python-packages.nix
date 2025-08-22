@@ -9740,6 +9740,8 @@ self: super: with self; {
 
   libsass = callPackage ../development/python-modules/libsass { inherit (pkgs) libsass; };
 
+  libsast = callPackage ../development/python-modules/libsast { };
+
   libsavitar = callPackage ../development/python-modules/libsavitar { };
 
   libsbml = toPythonModule (
