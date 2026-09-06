@@ -1217,6 +1217,8 @@ self: super: with self; {
 
   apkinspector = callPackage ../development/python-modules/apkinspector { };
 
+  apksigcopier = callPackage ../development/python-modules/apksigcopier { };
+
   apksigtool = callPackage ../development/python-modules/apksigtool { };
 
   aplpy = callPackage ../development/python-modules/aplpy { };
